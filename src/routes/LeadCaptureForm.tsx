@@ -1,3 +1,5 @@
+"use client";
+
 import { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { supabase } from '../lib/supabase';
@@ -9,8 +11,7 @@ type FormErrors = {
   phone?: string;
 };
 
-export const LeadCaptureForm = () => {
-  const { agencyId } = useParams<{ agencyId: string }>();
+export function LeadCaptureFormView({ agencyId }: { agencyId?: string }) {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -278,6 +279,11 @@ export const LeadCaptureForm = () => {
       </div>
     </div>
   );
-};
+}
+
+export function LeadCaptureForm() {
+  const { agencyId } = useParams<{ agencyId: string }>();
+  return <LeadCaptureFormView agencyId={agencyId} />;
+}
 
 export default LeadCaptureForm;

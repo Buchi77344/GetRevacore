@@ -1,9 +1,15 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  // @hello-pangea/dnd ships prebuilt CJS that the bundler needs to
-  // transpile from source to resolve correctly.
-  transpilePackages: ["@hello-pangea/dnd"],
+  // Transpile dependencies from source so Turbopack doesn't deadlock on
+  // their prebuilt CJS during the SPA bundle compilation.
+  transpilePackages: [
+    "@hello-pangea/dnd",
+    "react-router-dom",
+    "react-hot-toast",
+    "lucide-react",
+    "@supabase/supabase-js",
+  ],
   /* config options here */
 };
 

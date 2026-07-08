@@ -1,25 +1,9 @@
-import { useState, useEffect, useCallback } from 'react'
-import { useParams, Link } from 'react-router-dom'
-import { supabase } from '../lib/supabase'
+"use client";
 
-interface PublicProperty {
-  id: string
-  title: string
-  type: string
-  price: number
-  currency: string
-  location: string
-  bedrooms: number
-  bathrooms: number
-  size_sqft: number | null
-  image_url: string | null
-  description: string | null
-  features: string[] | null
-  status: string
-  listing_type: string
-  is_public: boolean
-  created_at: string
-}
+import { useState, useEffect, useCallback } from 'react'
+import { Link } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
+import { getPublicProperty, type PublicProperty } from '../lib/public'
 
 const formatPrice = (price: number) => {
   if (price >= 1_000_000) return `$${(price / 1_000_000).toFixed(1)}M`
@@ -65,98 +49,11 @@ const Icons = {
   ),
 }
 
-export const PublicListing = () => {
-  const { id } = useParams<{ id: string }>()
-  const [property, setProperty] = useState<PublicProperty | null>(null)
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState<string | null>(null)
-
-  const fetchProperty = useCallback(async () => {
-    if (!id) return
-    setLoading(true)
-    setError(null)
-    try {
-      const { data, error } = await supabase
-        .from('properties')
-        .select('*')
-        .eq('id', id)
-        .eq('is_public', true)
-        .single()
-
-      if (error || !data) {
-        throw new Error('Property not found')
-      }
-
-      // Map DB row to PublicProperty interface
-      const row = data as Record<string, unknown>
-      const mapped: PublicProperty = {
-        id: row.id as string,
-        title: (row.title as string) || '',
-        type: (row.property_type as string) || (row.type as string) || '',
-        price: (row.price as number) || 0,
-        currency: (row.currency as string) || 'USD',
-        location: (row.location as string) || '',
-        bedrooms: (row.bedrooms as number) || 0,
-        bathrooms: (row.bathrooms as number) || 0,
-        size_sqft: (row.size_sqft as number | null) || (row.sqft as number | null) || null,
-        image_url: (row.image_url as string | null) || (row.primary_photo_url as string | null) || null,
-        description: (row.description as string | null) || null,
-        features: (row.features as string[] | null) || [],
-        status: (row.status as string) || 'available',
-        listing_type: (row.listing_type as string) || 'sale',
-        is_public: (row.is_public as boolean) || false,
-        created_at: (row.created_at as string) || '',
-      }
-
-      setProperty(mapped)
-    } catch (err: any) {
-      setError(err.message || 'Failed to load property')
-    } finally {
-      setLoading(false)
-    }
-  }, [id])
-
-  useEffect(() => {
-    fetchProperty()
-  }, [fetchProperty])
-
+export function PublicListingView({ property }: { property: PublicProperty }) {
   const copyLink = () => {
     navigator.clipboard.writeText(window.location.href)
   }
-
-  if (loading) {
-    return (
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: '60vh', fontFamily: 'var(--font-body)' }}>
-        <div style={{ textAlign: 'center' }}>
-          <div style={{ width: 48, height: 48, borderRadius: 14, background: 'var(--bg-secondary)', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 16px', color: 'var(--color-ochre)', animation: 'pulse 1.5s ease-in-out infinite' }}>
-            <Icons.Home />
-          </div>
-          <p style={{ color: 'var(--text-secondary)', fontSize: 14 }}>Loading property...</p>
-        </div>
-      </div>
-    )
-  }
-
-  if (error || !property) {
-    return (
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: '60vh', padding: '20px', fontFamily: 'var(--font-body)' }}>
-        <div style={{ textAlign: 'center', padding: 40, background: 'var(--bg-secondary)', borderRadius: 20, border: '1px solid var(--border-primary)', maxWidth: 500 }}>
-          <div style={{ width: 64, height: 64, borderRadius: 20, background: 'var(--bg-tertiary)', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 16px', color: 'var(--text-tertiary)' }}>
-            <Icons.Home />
-          </div>
-          <h3 style={{ fontSize: 18, fontWeight: 700, color: 'var(--text-primary)', margin: '0 0 8px' }}>Property not found</h3>
-          <p style={{ fontSize: 13, color: 'var(--text-secondary)', margin: '0 0 20px' }}>
-            {error || 'This property may have been removed or is not publicly available.'}
-          </p>
-          <Link to="/" style={{ display: 'inline-flex', alignItems: 'center', gap: 6, padding: '10px 20px', borderRadius: 12, background: 'var(--color-espresso)', color: '#fff', textDecoration: 'none', fontWeight: 600, fontSize: 13 }}>
-            <Icons.ArrowLeft /> Back to Home
-          </Link>
-        </div>
-      </div>
-    )
-  }
-
-  const hasImage = property.image_url && !error
+  const hasImage = !!property.image_url
 
   return (
     <div style={{ minHeight: '100vh', fontFamily: 'var(--font-body)', color: 'var(--text-primary)', padding: '40px 20px' }}>
@@ -237,6 +134,66 @@ export const PublicListing = () => {
       </div>
     </div>
   )
+}
+
+export function PublicListing() {
+  const { id } = useParams<{ id: string }>()
+  const [property, setProperty] = useState<PublicProperty | null>(null)
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
+
+  const load = useCallback(async () => {
+    if (!id) return
+    setLoading(true)
+    setError(null)
+    try {
+      const data = await getPublicProperty(id)
+      if (!data) throw new Error('Property not found')
+      setProperty(data)
+    } catch (err: any) {
+      setError(err.message || 'Failed to load property')
+    } finally {
+      setLoading(false)
+    }
+  }, [id])
+
+  useEffect(() => {
+    load()
+  }, [load])
+
+  if (loading) {
+    return (
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: '60vh', fontFamily: 'var(--font-body)' }}>
+        <div style={{ textAlign: 'center' }}>
+          <div style={{ width: 48, height: 48, borderRadius: 14, background: 'var(--bg-secondary)', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 16px', color: 'var(--color-ochre)', animation: 'pulse 1.5s ease-in-out infinite' }}>
+            <Icons.Home />
+          </div>
+          <p style={{ color: 'var(--text-secondary)', fontSize: 14 }}>Loading property...</p>
+        </div>
+      </div>
+    )
+  }
+
+  if (error || !property) {
+    return (
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: '60vh', padding: '20px', fontFamily: 'var(--font-body)' }}>
+        <div style={{ textAlign: 'center', padding: 40, background: 'var(--bg-secondary)', borderRadius: 20, border: '1px solid var(--border-primary)', maxWidth: 500 }}>
+          <div style={{ width: 64, height: 64, borderRadius: 20, background: 'var(--bg-tertiary)', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 16px', color: 'var(--text-tertiary)' }}>
+            <Icons.Home />
+          </div>
+          <h3 style={{ fontSize: 18, fontWeight: 700, color: 'var(--text-primary)', margin: '0 0 8px' }}>Property not found</h3>
+          <p style={{ fontSize: 13, color: 'var(--text-secondary)', margin: '0 0 20px' }}>
+            {error || 'This property may have been removed or is not publicly available.'}
+          </p>
+          <Link to="/" style={{ display: 'inline-flex', alignItems: 'center', gap: 6, padding: '10px 20px', borderRadius: 12, background: 'var(--color-espresso)', color: '#fff', textDecoration: 'none', fontWeight: 600, fontSize: 13 }}>
+            <Icons.ArrowLeft /> Back to Home
+          </Link>
+        </div>
+      </div>
+    )
+  }
+
+  return <PublicListingView property={property} />
 }
 
 export default PublicListing

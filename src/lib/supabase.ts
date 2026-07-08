@@ -2,8 +2,8 @@ import { createClient } from '@supabase/supabase-js'
 
 // Get environment variables with validation
 const getSupabaseConfig = () => {
-  const url = import.meta.env.VITE_SUPABASE_URL
-  const key = import.meta.env.VITE_SUPABASE_ANON_KEY
+  const url = process.env.NEXT_PUBLIC_SUPABASE_URL
+  const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
 
   if (!url || !key) {
     console.error('❌ Missing Supabase configuration')
@@ -33,11 +33,11 @@ export const supabase = createClient(config.url, config.key, {
     detectSessionInUrl: true,
     flowType: 'pkce',
     // Ensure redirects go to the correct URL regardless of environment
-    ...(import.meta.env.PROD && {
+    ...(process.env.NODE_ENV === 'production' && {
       // In production, explicitly set the site URL to prevent redirects to localhost
       // Note: This should match the Site URL in Supabase dashboard settings
-      ...(import.meta.env.VITE_SITE_URL && {
-        redirectTo: import.meta.env.VITE_SITE_URL,
+      ...(process.env.NEXT_PUBLIC_SITE_URL && {
+        redirectTo: process.env.NEXT_PUBLIC_SITE_URL,
       }),
     }),
   },
