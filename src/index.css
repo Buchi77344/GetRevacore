@@ -1,0 +1,189 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap');
+@import "tailwindcss";
+
+/* index.css - Global styles with light/dark theme support */
+
+/* ── Font Imports ─────────────────────────────────────────────────────────── */
+
+/* ── Light Theme (default) ────────────────────────────────────────────────── */
+:root,
+[data-theme="light"] {
+  /* Core palette */
+  --color-espresso: #37281E;
+  --color-ochre: #B48246;
+  --color-terracotta: #C35F46;
+  --color-sage: #6E8C64;
+  --color-slate: #5A555F;
+  --color-cream: #F7F3EC;
+  --color-warm-white: #FDFAF6;
+  --color-soft-stone: #E8E2D9;
+  
+  /* Semantic colors */
+  --color-success: #6E8C64;
+  --color-warning: #B48246;
+  --color-error: #C35F46;
+  --color-info: #5A555F;
+  
+  /* Surfaces */
+  --bg-primary: #FDFAF6;
+  --bg-secondary: #FFFFFF;
+  --bg-tertiary: #F7F3EC;
+  --bg-hover: rgba(55, 40, 30, 0.03);
+  --bg-active: rgba(55, 40, 30, 0.06);
+  --bg-inverse: #37281E;
+  
+  /* Text */
+  --text-primary: #37281E;
+  --text-secondary: #5A555F;
+  --text-tertiary: rgba(90, 85, 95, 0.6);
+  --text-inverse: #FDFAF6;
+  --text-accent: #B48246;
+  --text-link: #B48246;
+  
+  /* Borders */
+  --border-primary: #E8E2D9;
+  --border-secondary: rgba(232, 226, 217, 0.5);
+  --border-hover: rgba(180, 130, 70, 0.3);
+  --border-active: #B48246;
+  
+  /* Shadows */
+  --shadow-sm: 0 1px 2px rgba(55, 40, 30, 0.03);
+  --shadow-md: 0 1px 3px rgba(55, 40, 30, 0.04), 0 4px 16px rgba(55, 40, 30, 0.04);
+  --shadow-lg: 0 1px 2px rgba(55, 40, 30, 0.02), 0 8px 24px rgba(55, 40, 30, 0.06);
+  --shadow-xl: 0 4px 32px rgba(55, 40, 30, 0.08), 0 0 0 1px rgba(55, 40, 30, 0.03);
+  --shadow-glow: 0 0 0 1px rgba(180, 130, 70, 0.08), 0 4px 20px rgba(180, 130, 70, 0.06);
+  
+  /* Typography */
+  --font-display: 'Playfair Display', 'Cormorant Garamond', Georgia, serif;
+  --font-body: 'DM Sans', 'Inter', -apple-system, sans-serif;
+  --font-mono: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
+  
+  /* Radii */
+  --radius-sm: 10px;
+  --radius-md: 14px;
+  --radius-lg: 20px;
+  --radius-xl: 24px;
+  --radius-full: 9999px;
+  
+  /* Transitions */
+  --transition-fast: 150ms cubic-bezier(0.22, 0.61, 0.36, 1);
+  --transition-base: 200ms cubic-bezier(0.22, 0.61, 0.36, 1);
+  --transition-slow: 300ms cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+/* ── Dark Theme ───────────────────────────────────────────────────────────── */
+[data-theme="dark"] {
+  /* Core palette - adjusted for dark mode */
+  --color-espresso: #1A1410;
+  --color-ochre: #D4A55A;
+  --color-terracotta: #E07B60;
+  --color-sage: #8BA882;
+  --color-slate: #A8A3AD;
+  --color-cream: #ffffff;
+  --color-warm-white: #ffffff;
+  --color-soft-stone: #3D3630;
+  
+  /* Semantic colors */
+  --color-success: #8BA882;
+  --color-warning: #D4A55A;
+  --color-error: #E07B60;
+  --color-info: #A8A3AD;
+  
+  /* Surfaces */
+  --bg-primary: #1E1B18;
+  --bg-secondary: #25221E;
+  --bg-tertiary: #2C2620;
+  --bg-hover: rgba(212, 165, 90, 0.06);
+  --bg-active: rgba(212, 165, 90, 0.1);
+  --bg-inverse: #FDFAF6;
+  
+  /* Text */
+  --text-primary: #F0EDE8;
+  --text-secondary: #A8A3AD;
+  --text-tertiary: rgba(168, 163, 173, 0.6);
+  --text-inverse: #1E1B18;
+  --text-accent: #D4A55A;
+  --text-link: #D4A55A;
+  
+  /* Borders */
+  --border-primary: #3D3630;
+  --border-secondary: rgba(61, 54, 48, 0.5);
+  --border-hover: rgba(212, 165, 90, 0.3);
+  --border-active: #D4A55A;
+  
+  /* Shadows - darker and more subtle in dark mode */
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.2);
+  --shadow-md: 0 1px 3px rgba(0, 0, 0, 0.3), 0 4px 16px rgba(0, 0, 0, 0.2);
+  --shadow-lg: 0 1px 2px rgba(0, 0, 0, 0.2), 0 8px 24px rgba(0, 0, 0, 0.3);
+  --shadow-xl: 0 4px 32px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(212, 165, 90, 0.08);
+  --shadow-glow: 0 0 0 1px rgba(212, 165, 90, 0.12), 0 4px 20px rgba(212, 165, 90, 0.08);
+}
+
+/* ── Base Body Styles ─────────────────────────────────────────────────────── */
+body {
+  font-family: 'DM Sans', 'Inter', -apple-system, sans-serif;
+  background-color: var(--bg-primary, #FDFAF6);
+  color: var(--text-primary, #37281E);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ── Scrollbar Styles ─────────────────────────────────────────────────────── */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--border-primary);
+  border-radius: 3px;
+  transition: background var(--transition-fast);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--text-tertiary);
+}
+
+/* ── Selection ────────────────────────────────────────────────────────────── */
+::selection {
+  background: rgba(180, 130, 70, 0.2);
+  color: var(--text-primary);
+}
+
+[data-theme="dark"] ::selection {
+  background: rgba(212, 165, 90, 0.25);
+}
+
+/* ── Skeleton Loading ─────────────────────────────────────────────────────── */
+.skeleton {
+  background: linear-gradient(
+    90deg,
+    var(--bg-tertiary) 25%,
+    var(--bg-hover) 50%,
+    var(--bg-tertiary) 75%
+  );
+  background-size: 200% 100%;
+  animation: skeleton-shimmer 1.5s ease-in-out infinite;
+  border-radius: var(--radius-sm);
+}
+
+@keyframes skeleton-shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* ── Reduced Motion ───────────────────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

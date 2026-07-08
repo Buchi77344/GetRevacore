@@ -1,0 +1,132 @@
+/* ============================================================================
+   TOASTER STYLING - Light & Dark Mode Support
+   ============================================================================ */
+
+/* Light mode toaster (default) */
+:root,
+[data-theme="light"] {
+  --toaster-bg: #FFFFFF;
+  --toaster-text: #37281E;
+  --toaster-border: #E8E2D9;
+  --toaster-shadow: 0 1px 2px rgba(55, 40, 30, 0.02), 0 8px 24px rgba(55, 40, 30, 0.06);
+}
+
+/* Dark mode toaster */
+[data-theme="dark"] {
+  --toaster-bg: #25221E;
+  --toaster-text: #F0EDE8;
+  --toaster-border: #3D3630;
+  --toaster-shadow: 0 1px 2px rgba(0, 0, 0, 0.2), 0 8px 24px rgba(0, 0, 0, 0.3);
+}
+
+/* Toaster container - ensure only one exists */
+.toaster-container {
+  position: fixed;
+  z-index: 9999;
+}
+
+/* Individual toast styling */
+.toaster-container > div {
+  animation: toastIn 0.3s cubic-bezier(0.22, 0.61, 0.36, 1) forwards;
+}
+
+@keyframes toastIn {
+  0% {
+    opacity: 0;
+    transform: translateY(-10px) translateX(10px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) translateX(0);
+  }
+}
+
+/* Remove the extra toaster div if multiple instances exist */
+.toaster-container:not(:first-of-type) {
+  display: none !important;
+}
+
+/* ============================================================================
+   GLOBAL THEME SUPPORT - Ensure proper contrast in all modes
+   ============================================================================ */
+
+/* Light mode - explicitly black text */
+:root,
+[data-theme="light"] body {
+  color: #37281E;
+}
+
+/* Dark mode - explicitly light text */
+[data-theme="dark"] body {
+  color: #F0EDE8;
+}
+
+/* Ensure text in all major components respects theme */
+:root,
+[data-theme="light"] {
+  color-scheme: light;
+}
+
+[data-theme="dark"] {
+  color-scheme: dark;
+}
+
+/* ============================================================================
+   PRODUCTION OPTIMIZATIONS
+   ============================================================================ */
+
+/* Ensure smooth theme transitions */
+* {
+  transition: background-color var(--transition-fast), color var(--transition-fast);
+}
+
+/* Disable transitions on theme-aware pseudo-elements */
+[data-theme] ::before,
+[data-theme] ::after {
+  transition: none;
+}
+
+/* ============================================================================
+   ACCESSIBILITY - High contrast mode support
+   ============================================================================ */
+
+@media (prefers-contrast: more) {
+  :root,
+  [data-theme="light"] {
+    --text-primary: #000000;
+    --text-secondary: #333333;
+    --bg-primary: #FFFFFF;
+    --bg-secondary: #FAFAFA;
+  }
+
+  [data-theme="dark"] {
+    --text-primary: #FFFFFF;
+    --text-secondary: #E0E0E0;
+    --bg-primary: #000000;
+    --bg-secondary: #1A1A1A;
+  }
+}
+
+/* ============================================================================
+   PRINT STYLES
+   ============================================================================ */
+
+@media print {
+  .toaster-container {
+    display: none !important;
+  }
+}
+
+/* ============================================================================
+   REDUCED MOTION - Respect user preference
+   ============================================================================ */
+
+@media (prefers-reduced-motion: reduce) {
+  .toaster-container > div {
+    animation: none !important;
+  }
+
+  * {
+    transition: none !important;
+  }
+}

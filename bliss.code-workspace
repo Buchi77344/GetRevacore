@@ -1,0 +1,17 @@
+{
+	"folders": [
+		{
+			"path": "."
+		},
+		{
+			"path": "../Revacore-1/src/context"
+		},
+		{
+			"path": "../Revacore-1/src/hooks"
+		},
+		{
+			"path": "../Revacore-1/src/pages"
+		}
+	],
+	"settings": {}
+}
