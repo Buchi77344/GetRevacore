@@ -1,5 +1,7 @@
+"use client";
+
 import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
+import Link from 'next/link'
 import { supabase } from '../../lib/supabase'
 import { notifications } from '../../lib/notifications'
 
@@ -138,7 +140,7 @@ export default function ForgotPassword() {
               </p>
 
               <Link
-                to="/login"
+                href="/login"
                 style={{
                   display: 'inline-block',
                   marginTop: 8,
@@ -235,7 +237,7 @@ export default function ForgotPassword() {
                 }}>
                   Remember your password?{' '}
                   <Link
-                    to="/login"
+                    href="/login"
                     style={{
                       color: 'var(--color-ochre)',
                       fontWeight: 700,

@@ -1,5 +1,8 @@
+"use client";
+
 import { useState, useEffect, useCallback } from 'react'
-import { useParams, useNavigate, Link } from 'react-router-dom'
+import { useParams, useRouter } from 'next/navigation'
+import Link from 'next/link'
 import { supabase } from '../lib/supabase'
 import { useAuth } from '../hooks/useAuth'
 import toast from 'react-hot-toast'
@@ -154,7 +157,7 @@ interface MatchedLead {
 
 export const PropertyDetail = () => {
   const { id } = useParams()
-  const navigate = useNavigate()
+  const router = useRouter()
   const { agency } = useAuth()
   const [property, setProperty] = useState<PropertyDetail | null>(null)
   const [matchedLeads, setMatchedLeads] = useState<MatchedLead[]>([])
@@ -381,7 +384,7 @@ export const PropertyDetail = () => {
           <p style={{ fontSize: 13, color: 'var(--text-secondary)', margin: '0 0 20px' }}>
             {error || 'The property you are looking for does not exist or has been removed.'}
           </p>
-          <button onClick={() => navigate('/dashboard/properties')} style={{ padding: '10px 20px', borderRadius: 12, background: 'var(--color-espresso)', color: '#fff', border: 'none', cursor: 'pointer', fontWeight: 600, fontSize: 13 }}>
+          <button onClick={() => router.push('/dashboard/properties')} style={{ padding: '10px 20px', borderRadius: 12, background: 'var(--color-espresso)', color: '#fff', border: 'none', cursor: 'pointer', fontWeight: 600, fontSize: 13 }}>
             Back to Properties
           </button>
         </div>
@@ -409,7 +412,7 @@ export const PropertyDetail = () => {
       <div style={{ position: 'relative', zIndex: 1, maxWidth: 1200, margin: '0 auto', padding: '24px 24px 64px' }}>
         {/* Back button */}
         <button
-          onClick={() => navigate('/dashboard/properties')}
+          onClick={() => router.push('/dashboard/properties')}
           style={{
             display: 'inline-flex', alignItems: 'center', gap: 6,
             padding: '8px 14px', fontSize: 13, fontWeight: 600,
@@ -761,7 +764,7 @@ export const PropertyDetail = () => {
               {matchedLeads.map((lead) => (
                 <Link
                   key={lead.id}
-                  to={`/dashboard/leads/${lead.lead_id}`}
+                  href={`/dashboard/leads/${lead.lead_id}`}
                   style={{
                     display: 'grid', gridTemplateColumns: '2fr 1fr 1fr 1fr',
                     gap: 16, padding: '14px 16px',

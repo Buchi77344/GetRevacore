@@ -1,4 +1,6 @@
 // Appointments.tsx
+"use client";
+
 import { useState, useEffect, useMemo, useCallback } from 'react'
 import { supabase } from '../lib/supabase'
 import { useAuth } from '../hooks/useAuth'

@@ -1,4 +1,6 @@
 // components/leads/AddLeadModal.tsx
+"use client";
+
 import { useState, useEffect, useRef, useCallback } from 'react'
 import { supabase } from '../../lib/supabase'
 import toast from 'react-hot-toast'

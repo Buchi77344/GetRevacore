@@ -1,5 +1,7 @@
+"use client";
+
 import React, { useState, useCallback, useRef } from 'react'
-import { Link } from 'react-router-dom'
+import Link from 'next/link'
 import { useAuth } from '../../hooks/useAuth'
 import { notifications } from '../../lib/notifications'
 
@@ -443,7 +445,7 @@ export default function Signup() {
 
         {/* Logo + heading */}
         <div style={{ textAlign: 'center', marginBottom: 24 }}>
-          <Link to="/" style={{ display: 'inline-flex', marginBottom: 14, textDecoration: 'none' }}>
+          <Link href="/" style={{ display: 'inline-flex', marginBottom: 14, textDecoration: 'none' }}>
             <Logo />
           </Link>
           <h1 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(20px,3.5vw,25px)', fontWeight: 700, color: 'var(--text-primary)', margin: '0 0 5px', letterSpacing: '-0.02em' }}>
@@ -778,9 +780,9 @@ export default function Signup() {
                       onChange={e => { setAgree(e.target.checked); if (e.target.checked) setTermsError(false) }}
                       style={{ width: 14, height: 14, accentColor: 'var(--color-ochre)', cursor: 'pointer', marginTop: 2, flexShrink: 0 }} />
                     I agree to the{' '}
-                    <Link to="/terms" style={{ color: 'var(--color-ochre)', fontWeight: 600, textDecoration: 'none' }}>Terms of Service</Link>
-                    {' '}and{' '}
-                    <Link to="/privacy" style={{ color: 'var(--color-ochre)', fontWeight: 600, textDecoration: 'none' }}>Privacy Policy</Link>
+            <Link href="/terms" style={{ color: 'var(--color-ochre)', fontWeight: 600, textDecoration: 'none' }}>Terms of Service</Link>
+            {' '}and{' '}
+            <Link href="/privacy" style={{ color: 'var(--color-ochre)', fontWeight: 600, textDecoration: 'none' }}>Privacy Policy</Link>
                   </label>
                   {termsError && (
                     <p style={{ ...errStyle, display: 'flex', alignItems: 'center', gap: 4, marginTop: 5 }}>
@@ -826,7 +828,7 @@ export default function Signup() {
 
           <p style={{ textAlign: 'center', fontSize: 12, color: 'var(--text-secondary)', margin: '18px 0 0', fontWeight: 500 }}>
             Already have an account?{' '}
-            <Link to="/login" style={{ color: 'var(--color-ochre)', fontWeight: 700, textDecoration: 'none' }}>Sign in</Link>
+            <Link href="/login" style={{ color: 'var(--color-ochre)', fontWeight: 700, textDecoration: 'none' }}>Sign in</Link>
           </p>
         </form>
 

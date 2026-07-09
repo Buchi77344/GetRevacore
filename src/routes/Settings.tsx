@@ -1,4 +1,6 @@
-import { useState, useEffect, useRef ,type JSX} from 'react'
+"use client";
+
+import { useState, useEffect, useRef, type JSX } from 'react'
 import { supabase } from '../lib/supabase'
 import { useAuth } from '../hooks/useAuth'
 import toast from 'react-hot-toast'

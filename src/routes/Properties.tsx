@@ -1,5 +1,7 @@
+"use client";
+
 import { useState, useEffect, useMemo, useCallback } from 'react'
-import { Link } from 'react-router-dom'
+import Link from 'next/link'
 import { supabase } from '../lib/supabase'
 import { useAuth } from '../hooks/useAuth'
 import toast from 'react-hot-toast'
@@ -773,7 +775,7 @@ export const Properties = () => {
                             {property.description || 'No description available.'}
                           </p>
                           <div style={{ display: 'flex', gap: 8 }}>
-                            <Link to={`/dashboard/properties/${property.id}`} style={{
+                            <Link href={`/dashboard/properties/${property.id}`} style={{
                               flex: 1, textAlign: 'center', padding: '10px 14px', fontSize: 12, fontWeight: 700,
                               color: 'var(--color-cream)', background: 'var(--color-espresso)',
                               border: 'none', borderRadius: 100, textDecoration: 'none', transition: 'all 0.2s ease',

@@ -1,5 +1,8 @@
+"use client";
+
 import React, { useState, useRef } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 import { useAuth } from '../../hooks/useAuth'
 import { notifications } from '../../lib/notifications'
 
@@ -57,7 +60,7 @@ const Icons = {
 }
 
 export default function Login() {
-  const navigate = useNavigate()
+  const router = useRouter()
   const { signIn } = useAuth()
   const [loading, setLoading] = useState(false)
   const [showPassword, setShowPassword] = useState(false)
@@ -91,7 +94,7 @@ export default function Login() {
       notifications.auth.loginSuccess()
       // Brief transition to ensure state settles before navigating
       await new Promise(resolve => setTimeout(resolve, 300))
-      navigate('/dashboard', { replace: true })
+      router.replace('/dashboard')
     } catch (err: any) {
       const msg = err?.message || 'Failed to sign in. Please try again.'
       setLoginError(msg)
@@ -304,7 +307,7 @@ export default function Login() {
             </div>
             <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: 8 }}>
               <Link
-                to="/forgot-password"
+                href="/forgot-password"
                 style={{
                   fontSize: 12,
                   color: 'var(--text-tertiary)',
@@ -420,7 +423,7 @@ export default function Login() {
           }}>
             Don't have an account?{' '}
             <Link
-              to="/signup"
+              href="/signup"
               style={{
                 color: 'var(--color-ochre)',
                 fontWeight: 700,
@@ -462,7 +465,7 @@ export default function Login() {
           {['Privacy', 'Terms', 'Support'].map(link => (
             <Link
               key={link}
-              to={`/${link.toLowerCase()}`}
+              href={`/${link.toLowerCase()}`}
               style={{
                 fontSize: 11,
                 color: 'var(--text-tertiary)',

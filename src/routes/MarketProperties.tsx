@@ -1,5 +1,7 @@
+"use client";
+
 import { useState, useEffect, useCallback, useRef } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useRouter } from 'next/navigation'
 import { supabase } from '../lib/supabase'
 import { useAuth } from '../hooks/useAuth'
 import toast from 'react-hot-toast'
@@ -263,17 +265,17 @@ function PropertyCard({
   onSave: (p: MarketProperty) => void
   onRemove: (id: string) => void
 }) {
+  const router = useRouter()
   const [imgError, setImgError] = useState(false)
-  const navigate = useNavigate()
   const typeStyle = TYPE_COLORS[property.property_type] || { bg: 'rgba(180,130,70,0.15)', color: 'var(--color-ochre)', border: 'rgba(180,130,70,0.3)' }
 
   return (
     <div
       className="mp-card mp-card-clickable"
-      onClick={() => navigate(`/dashboard/properties/market/${property.id}`)}
+      onClick={() => router.push(`/dashboard/properties/market/${property.id}`)}
       role="button"
       tabIndex={0}
-      onKeyDown={(e) => { if (e.key === 'Enter') navigate(`/dashboard/properties/market/${property.id}`) }}
+      onKeyDown={(e) => { if (e.key === 'Enter') router.push(`/dashboard/properties/market/${property.id}`) }}
     >
       {/* Image */}
       <div className="mp-card-img-wrap">

@@ -1,6 +1,8 @@
+"use client";
+
 import { useState, useEffect } from 'react'
-import { Link } from 'react-router-dom'
-import { useAuth } from '../hooks/useAuth.tsx'
+import Link from 'next/link'
+import { useAuth } from '../hooks/useAuth'
 import { supabase } from '../lib/supabase'
 
 const Icons = {
@@ -369,7 +371,7 @@ export const Dashboard = () => {
             {quickActions.map((action, idx) => (
               <Link
                 key={idx}
-                to={action.path}
+                href={action.path}
                 className="quick-action-btn"
               >
                 <span style={{ color: 'var(--color-ochre)', display: 'flex', flexShrink: 0 }}>{action.icon}</span>
@@ -387,7 +389,7 @@ export const Dashboard = () => {
           <section style={{ background: 'var(--bg-secondary)', border: '1px solid var(--border-primary)', borderRadius: 20, padding: 'var(--card-pad)', boxShadow: 'var(--shadow-md)' }}>
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 20 }}>
               <h3 style={{ fontFamily: 'var(--font-display)', fontSize: 18, fontWeight: 600, margin: 0, letterSpacing: '-0.01em' }}>Recent Activity</h3>
-              <Link to="/dashboard/leads" style={{ fontSize: 12, fontWeight: 500, color: 'var(--color-ochre)', textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: 4, flexShrink: 0 }}>
+              <Link href="/dashboard/leads" style={{ fontSize: 12, fontWeight: 500, color: 'var(--color-ochre)', textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: 4, flexShrink: 0 }}>
                 View all <Icons.ArrowRight />
               </Link>
             </div>

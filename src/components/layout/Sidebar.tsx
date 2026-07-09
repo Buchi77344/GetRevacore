@@ -1,4 +1,5 @@
-import { Link, useLocation, useNavigate } from 'react-router-dom'
+import Link from 'next/link'
+import { usePathname, useRouter } from 'next/navigation'
 
 // Logo matching the login page
 const Logo = () => (
@@ -84,8 +85,8 @@ const Icons = {
 }
 
 const Sidebar = () => {
-  const location = useLocation()
-  const navigate = useNavigate()
+  const pathname = usePathname()
+  const router = useRouter()
 
   const mainMenuItems = [
     { name: 'Dashboard', path: '/dashboard', icon: <Icons.Dashboard /> },
@@ -103,21 +104,21 @@ const Sidebar = () => {
 
   const isActive = (path: string) => {
     if (path === '/dashboard') {
-      return location.pathname === '/dashboard'
+      return pathname === '/dashboard'
     }
-    return location.pathname.startsWith(path)
+    return pathname.startsWith(path)
   }
 
   const handleLogout = async () => {
     // Add your logout logic here
-    navigate('/login')
+    router.push('/login')
   }
 
   return (
     <aside className="flex flex-col h-screen bg-white border-r border-gray-200 w-60">
       {/* Logo Section - Matching Login Page */}
       <div className="px-6 py-6 border-b border-gray-100">
-        <Link to="/dashboard" className="flex items-center gap-3">
+        <Link href="/dashboard" className="flex items-center gap-3">
           <Logo />
           <div>
             <h1 className="text-xl font-extrabold text-gray-900 tracking-tight leading-none">
@@ -136,7 +137,7 @@ const Sidebar = () => {
           {mainMenuItems.map((item) => (
             <li key={item.path}>
               <Link
-                to={item.path}
+                href={item.path}
                 className={`flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-200 ${
                   isActive(item.path)
                     ? 'bg-gray-900 text-white shadow-sm'
@@ -177,3 +178,4 @@ const Sidebar = () => {
 }
 
 export default Sidebar
+

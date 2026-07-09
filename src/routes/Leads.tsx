@@ -1,6 +1,8 @@
+"use client";
+
 import { useState, useMemo, useEffect, useCallback, useRef } from 'react'
-import { Link } from 'react-router-dom'
-import { AddLeadModal } from '../components/leads/AddLeadModal.tsx'
+import Link from 'next/link'
+import { AddLeadModal } from '../components/leads/AddLeadModal'
 import { useAuth } from '../hooks/useAuth'
 import { supabase } from '../lib/supabase'
 import toast from 'react-hot-toast'
@@ -448,7 +450,7 @@ export const Leads = () => {
                       {/* Desktop row */}
                       <div className="ld-desktop-row" style={{ display: 'grid', gridTemplateColumns: '40px 2.5fr 1.8fr 1.2fr 1fr 1fr 1.2fr 1fr 44px', gap: 12, padding: '14px 20px', alignItems: 'center', borderBottom: '1px solid var(--border-secondary)', opacity: vis ? 1 : 0, transform: vis ? 'translateY(0)' : 'translateY(12px)', transition: 'opacity 0.3s ease, transform 0.3s cubic-bezier(0.22,0.61,0.36,1)' }}>
                         <div><input type="checkbox" checked={selectedLeads.includes(lead.id)} onChange={() => toggleLeadSelection(lead.id)} style={{ width: 15, height: 15, cursor: 'pointer', accentColor: 'var(--color-ochre)' }} /></div>
-                        <Link to={`/dashboard/leads/${lead.id}`} style={{ display: 'flex', alignItems: 'center', gap: 10, textDecoration: 'none', minWidth: 0 }}>
+                        <Link href={`/dashboard/leads/${lead.id}`} style={{ display: 'flex', alignItems: 'center', gap: 10, textDecoration: 'none', minWidth: 0 }}>
                           <div style={{ width: 38, height: 38, borderRadius: 11, flexShrink: 0, background: aiCfg ? aiCfg.bg : 'var(--color-espresso)', color: aiCfg ? aiCfg.text : 'var(--color-ochre)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 12, fontWeight: 700, border: aiCfg ? `1px solid ${aiCfg.border}` : 'none' }}>{lead.initials}</div>
                           <div style={{ minWidth: 0 }}>
                             <p style={{ fontSize: 13, fontWeight: 600, color: 'var(--text-primary)', margin: 0, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{lead.name}</p>
@@ -480,7 +482,7 @@ export const Leads = () => {
                                   <button key={l} style={{ width: '100%', textAlign: 'left', padding: '10px 14px', fontSize: 13, fontWeight: 500, color: 'var(--text-primary)', background: 'transparent', border: 'none', borderRadius: 10, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 8 }}>{icon}{l}</button>
                                 ))}
                                 <div style={{ height: 1, background: 'var(--border-secondary)', margin: 4 }} />
-                                <Link to={`/dashboard/leads/${lead.id}`} style={{ width: '100%', padding: '10px 14px', fontSize: 13, fontWeight: 500, color: 'var(--text-primary)', background: 'transparent', border: 'none', borderRadius: 10, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 8, textDecoration: 'none' }} onClick={() => setQuickActionOpen(null)}>
+                                <Link href={`/dashboard/leads/${lead.id}`} style={{ width: '100%', padding: '10px 14px', fontSize: 13, fontWeight: 500, color: 'var(--text-primary)', background: 'transparent', border: 'none', borderRadius: 10, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 8, textDecoration: 'none' }} onClick={() => setQuickActionOpen(null)}>
                                   <Icons.ChevronRight />View Details
                                 </Link>
                               </div>
@@ -490,7 +492,7 @@ export const Leads = () => {
                       </div>
 
                       {/* Mobile card */}
-                      <Link to={`/dashboard/leads/${lead.id}`} className="ld-mobile-card" style={{ opacity: vis ? 1 : 0, transform: vis ? 'translateY(0)' : 'translateY(10px)', transition: 'opacity 0.3s ease, transform 0.3s cubic-bezier(0.22,0.61,0.36,1)' }}>
+                      <Link href={`/dashboard/leads/${lead.id}`} className="ld-mobile-card" style={{ opacity: vis ? 1 : 0, transform: vis ? 'translateY(0)' : 'translateY(10px)', transition: 'opacity 0.3s ease, transform 0.3s cubic-bezier(0.22,0.61,0.36,1)' }}>
                         <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 10 }}>
                           <div style={{ width: 42, height: 42, borderRadius: 12, flexShrink: 0, background: aiCfg ? aiCfg.bg : 'var(--color-espresso)', color: aiCfg ? aiCfg.text : 'var(--color-ochre)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 13, fontWeight: 700, border: aiCfg ? `1px solid ${aiCfg.border}` : 'none' }}>{lead.initials}</div>
                           <div style={{ flex: 1, minWidth: 0 }}>
@@ -529,7 +531,7 @@ export const Leads = () => {
                   const aiConf = lead.ai_score ? aiScoreConfig[lead.ai_score as keyof typeof aiScoreConfig] : null
                   const vis = visibleRows.includes(lead.id)
                   return (
-                    <Link key={lead.id} to={`/dashboard/leads/${lead.id}`} className="ld-grid-card" style={{ border: `1px solid ${aiConf ? aiConf.border : 'var(--border-primary)'}`, opacity: vis ? 1 : 0, transform: vis ? 'translateY(0)' : 'translateY(14px)', transition: 'opacity 0.32s ease, transform 0.32s cubic-bezier(0.22,0.61,0.36,1)' }}>
+                    <Link key={lead.id} href={`/dashboard/leads/${lead.id}`} className="ld-grid-card" style={{ border: `1px solid ${aiConf ? aiConf.border : 'var(--border-primary)'}`, opacity: vis ? 1 : 0, transform: vis ? 'translateY(0)' : 'translateY(14px)', transition: 'opacity 0.32s ease, transform 0.32s cubic-bezier(0.22,0.61,0.36,1)' }}>
                       <div style={{ position: 'absolute', top: 0, right: 0, width: 60, height: 60, borderRadius: '0 0 0 100%', background: aiConf ? aiConf.bg : 'var(--bg-hover)', pointerEvents: 'none' }} />
                       <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', marginBottom: 12 }}>
                         <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>

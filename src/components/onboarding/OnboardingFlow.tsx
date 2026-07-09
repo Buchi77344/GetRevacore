@@ -1,3 +1,5 @@
+"use client";
+
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../../hooks/useAuth'
@@ -96,7 +98,7 @@ export const OnboardingFlow = ({ onComplete, onDismiss }: OnboardingFlowProps) =
       action: {
         label: 'List a property',
         onClick: () => {
-          navigate('/dashboard/properties')
+           navigate('/dashboard/properties')
           markCompleted('list-property')
         },
       },
@@ -109,7 +111,7 @@ export const OnboardingFlow = ({ onComplete, onDismiss }: OnboardingFlowProps) =
       action: {
         label: 'Configure AI',
         onClick: () => {
-          navigate('/dashboard/settings')
+           navigate('/dashboard/settings')
           markCompleted('ai-setup')
         },
       },

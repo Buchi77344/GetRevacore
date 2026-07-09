@@ -1,8 +1,8 @@
 "use client";
 
 import { useState, useEffect, useCallback } from 'react'
-import { Link } from 'react-router-dom'
-import { useParams } from 'react-router-dom'
+import Link from 'next/link'
+import { useParams } from 'next/navigation'
 import { getPublicProperty, type PublicProperty } from '../lib/public'
 
 const formatPrice = (price: number) => {
@@ -58,7 +58,7 @@ export function PublicListingView({ property }: { property: PublicProperty }) {
   return (
     <div style={{ minHeight: '100vh', fontFamily: 'var(--font-body)', color: 'var(--text-primary)', padding: '40px 20px' }}>
       <div style={{ maxWidth: 900, margin: '0 auto' }}>
-        <Link to="/" style={{ display: 'inline-flex', alignItems: 'center', gap: 6, marginBottom: 20, fontSize: 13, color: 'var(--text-secondary)', textDecoration: 'none', padding: '8px 14px', borderRadius: 100, border: '1px solid var(--border-primary)', background: 'var(--bg-secondary)' }}>
+        <Link href="/" style={{ display: 'inline-flex', alignItems: 'center', gap: 6, marginBottom: 20, fontSize: 13, color: 'var(--text-secondary)', textDecoration: 'none', padding: '8px 14px', borderRadius: 100, border: '1px solid var(--border-primary)', background: 'var(--bg-secondary)' }}>
           <Icons.ArrowLeft /> Back to Home
         </Link>
 
@@ -185,7 +185,7 @@ export function PublicListing() {
           <p style={{ fontSize: 13, color: 'var(--text-secondary)', margin: '0 0 20px' }}>
             {error || 'This property may have been removed or is not publicly available.'}
           </p>
-          <Link to="/" style={{ display: 'inline-flex', alignItems: 'center', gap: 6, padding: '10px 20px', borderRadius: 12, background: 'var(--color-espresso)', color: '#fff', textDecoration: 'none', fontWeight: 600, fontSize: 13 }}>
+          <Link href="/" style={{ display: 'inline-flex', alignItems: 'center', gap: 6, padding: '10px 20px', borderRadius: 12, background: 'var(--color-espresso)', color: '#fff', textDecoration: 'none', fontWeight: 600, fontSize: 13 }}>
             <Icons.ArrowLeft /> Back to Home
           </Link>
         </div>

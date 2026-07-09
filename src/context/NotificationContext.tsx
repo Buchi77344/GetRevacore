@@ -1,3 +1,5 @@
+"use client";
+
 import React, { createContext, useContext, useState, useCallback, useRef } from 'react'
 
 // Notification type definition
@@ -69,6 +71,7 @@ const generateNotificationSound = (frequency: number = 800, duration: number = 2
  * NotificationProvider component
  * Wraps the application and provides notification context
  */
+
 export const NotificationProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [notifications, setNotifications] = useState<Notification[]>([])
   const audioRef = useRef<HTMLAudioElement | null>(null)
@@ -168,3 +171,9 @@ export const useNotification = (): NotificationContextType => {
   }
   return context
 }
+
+
+
+
+
+

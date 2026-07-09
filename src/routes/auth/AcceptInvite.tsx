@@ -1,13 +1,16 @@
+"use client";
+
 import { useState, useEffect } from 'react'
-import { useSearchParams, useNavigate, Link } from 'react-router-dom'
+import { useSearchParams, useRouter } from 'next/navigation'
+import Link from 'next/link'
 import { supabase } from '../../lib/supabase'
 import { useAuth } from '../../hooks/useAuth'
 import toast from 'react-hot-toast'
 
 export const AcceptInvite = () => {
   const { user, sessionChecked } = useAuth()
-  const [searchParams] = useSearchParams()
-  const navigate = useNavigate()
+  const searchParams = useSearchParams()
+  const router = useRouter()
   const token = searchParams.get('token')
   const [status, setStatus] = useState<'loading' | 'valid' | 'invalid'>('loading')
   const [invite, setInvite] = useState<any>(null)
@@ -50,7 +53,7 @@ export const AcceptInvite = () => {
 
       await supabase.from('invitations').update({ status: 'accepted', accepted_at: new Date() }).eq('id', invite.id)
       toast.success('Welcome to the team!')
-      navigate('/dashboard')
+      router.push('/dashboard')
     } catch (err: any) { toast.error(err.message || 'Failed to accept invite') }
     finally { setAccepting(false) }
   }
@@ -62,7 +65,7 @@ export const AcceptInvite = () => {
       <div style={{ maxWidth: 460, margin: '80px auto', padding: 24, textAlign: 'center' }}>
         <h1 style={{ fontFamily: 'var(--font-display)', fontSize: 24, fontWeight: 700, margin: '0 0 8px' }}>Invalid invite</h1>
         <p style={{ color: 'var(--text-secondary)', margin: '0 0 20px' }}>{error}</p>
-        <Link to="/signup" style={{ color: 'var(--color-ochre)', fontWeight: 600, textDecoration: 'none' }}>Go to signup</Link>
+        <Link href="/signup" style={{ color: 'var(--color-ochre)', fontWeight: 600, textDecoration: 'none' }}>Go to signup</Link>
       </div>
     )
   }
@@ -90,7 +93,7 @@ export const AcceptInvite = () => {
         ) : (
           <div>
             <p style={{ color: 'var(--text-secondary)', margin: '0 0 16px' }}>Please sign in to accept this invitation.</p>
-            <Link to="/login" style={{ padding: '12px 24px', fontSize: 14, fontWeight: 700, color: 'var(--color-cream)', background: 'var(--color-espresso)', borderRadius: 12, textDecoration: 'none' }}>Sign In</Link>
+            <Link href="/login" style={{ padding: '12px 24px', fontSize: 14, fontWeight: 700, color: 'var(--color-cream)', background: 'var(--color-espresso)', borderRadius: 12, textDecoration: 'none' }}>Sign In</Link>
           </div>
         )}
       </div>

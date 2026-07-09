@@ -1,5 +1,8 @@
+"use client";
+
 import { useState, useEffect, useCallback } from 'react'
-import { useParams, useNavigate, Link } from 'react-router-dom'
+import { useParams, useRouter } from 'next/navigation'
+import Link from 'next/link'
 import { supabase } from '../lib/supabase'
 import { useAuth } from '../hooks/useAuth'
 import toast from 'react-hot-toast'
@@ -173,17 +176,17 @@ function DetailSkeleton() {
 
 // ─── Similar Property Card ─────────────────────────────────────────────────────
 function SimilarCard({ property }: { property: { id: string; title: string; price: number; image_url: string | null; property_type: string; bedrooms: number; bathrooms: number; size_sqft: number | null } }) {
+  const router = useRouter()
   const [imgError, setImgError] = useState(false)
-  const navigate = useNavigate()
   const typeStyle = TYPE_COLORS[property.property_type] || { bg: 'rgba(180,130,70,0.15)', color: 'var(--color-ochre)', border: 'rgba(180,130,70,0.3)' }
 
   return (
     <div
       className="mp-card mp-card-clickable"
-      onClick={() => navigate(`/dashboard/properties/market/${property.id}`)}
+      onClick={() => router.push(`/dashboard/properties/market/${property.id}`)}
       role="button"
       tabIndex={0}
-      onKeyDown={(e) => { if (e.key === 'Enter') navigate(`/dashboard/properties/market/${property.id}`) }}
+      onKeyDown={(e) => { if (e.key === 'Enter') router.push(`/dashboard/properties/market/${property.id}`) }}
       style={{ cursor: 'pointer', background: 'var(--bg-secondary)', borderRadius: 16, overflow: 'hidden', border: '1px solid var(--border-primary)', boxShadow: 'var(--shadow-sm)' }}
     >
       <div style={{ position: 'relative', height: 140, overflow: 'hidden', background: 'var(--bg-tertiary)' }}>
@@ -315,7 +318,7 @@ export default function MarketPropertyDetail() {
           </div>
           <p className="mp-empty-title" style={{ fontSize: 15, fontWeight: 700, margin: '0 0 4px' }}>Property not found</p>
           <p className="mp-empty-sub" style={{ fontSize: 13, color: 'var(--text-secondary)', margin: '0 0 20px' }}>This property may have been removed or the link is invalid.</p>
-          <Link to="/dashboard/properties/market" className="mp-btn mp-btn-outline" style={{ display: 'inline-flex', alignItems: 'center', gap: 6, padding: '10px 24px', fontSize: 12, fontWeight: 700, borderRadius: 100, border: '1.5px solid rgba(180,130,70,0.3)', color: 'var(--color-ochre)', background: 'transparent', textDecoration: 'none' }}>
+          <Link href="/dashboard/properties/market" className="mp-btn mp-btn-outline" style={{ display: 'inline-flex', alignItems: 'center', gap: 6, padding: '10px 24px', fontSize: 12, fontWeight: 700, borderRadius: 100, border: '1.5px solid rgba(180,130,70,0.3)', color: 'var(--color-ochre)', background: 'transparent', textDecoration: 'none' }}>
             <Icons.ArrowLeft /> Back to Market
           </Link>
         </div>
@@ -330,7 +333,7 @@ export default function MarketPropertyDetail() {
     <div className="mp-root">
       {/* ── Back Link ── */}
       <Link
-        to="/dashboard/properties/market"
+        href="/dashboard/properties/market"
         style={{ display: 'inline-flex', alignItems: 'center', gap: 6, marginBottom: 20, fontSize: 13, fontWeight: 600, color: 'var(--text-secondary)', textDecoration: 'none', padding: '8px 14px', borderRadius: 100, border: '1px solid var(--border-primary)', background: 'var(--bg-secondary)', transition: 'all 0.15s' }}
         onMouseEnter={e => { e.currentTarget.style.borderColor = 'rgba(180,130,70,0.3)'; e.currentTarget.style.color = 'var(--text-primary)' }}
         onMouseLeave={e => { e.currentTarget.style.borderColor = 'var(--border-primary)'; e.currentTarget.style.color = 'var(--text-secondary)' }}

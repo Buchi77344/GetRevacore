@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams } from 'next/navigation';
 import { supabase } from '../lib/supabase';
 import { insertAgencyNotification } from '../lib/notifications';
 

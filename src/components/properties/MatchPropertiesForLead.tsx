@@ -1,6 +1,8 @@
+"use client";
+
 import { useState, useEffect, useCallback } from 'react'
 import { supabase } from '../../lib/supabase'
-import { Link } from 'react-router-dom'
+import Link from 'next/link'
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 interface MatchedProperty {
@@ -303,7 +305,7 @@ export const MatchPropertiesForLead = ({
               return (
                 <Link
                   key={property.id}
-                  to={`/dashboard/properties/${property.id}`}
+                  href={`/dashboard/properties/${property.id}`}
                   style={{
                     display: 'flex',
                     gap: 12,
@@ -400,7 +402,7 @@ export const MatchPropertiesForLead = ({
       {/* Footer */}
       {matches.length > 0 && (
         <Link
-          to="/dashboard/properties"
+          href="/dashboard/properties"
           style={{
             display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6,
             padding: '12px 16px',

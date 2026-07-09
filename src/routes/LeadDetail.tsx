@@ -1,5 +1,8 @@
+"use client";
+
 import { useState, useEffect, useCallback, type JSX } from 'react'
-import { useParams, useNavigate, Link } from 'react-router-dom'
+import { useParams, useRouter } from 'next/navigation'
+import Link from 'next/link'
 import { supabase } from '../lib/supabase'
 import { useAuth } from '../hooks/useAuth'
 import { MatchPropertiesForLead } from '../components/properties/MatchPropertiesForLead'
@@ -226,7 +229,7 @@ function SectionHeader({ icon, title, color = 'var(--color-ochre)', badge, actio
 // ─── Main Component ───────────────────────────────────────────────────────────
 export const LeadDetail = () => {
   const { id } = useParams()
-  const navigate = useNavigate()
+  const router = useRouter()
   const [lead, setLead] = useState<Lead | null>(null)
   const [activities, setActivities] = useState<LeadActivity[]>([])
   const [loading, setLoading] = useState(true)
@@ -313,7 +316,7 @@ export const LeadDetail = () => {
       <div style={{ textAlign: 'center' }}>
         <h3 style={{ fontSize: 18, fontWeight: 700, margin: '0 0 8px' }}>Lead not found</h3>
         <p style={{ fontSize: 13, color: 'var(--text-secondary)', margin: '0 0 20px' }}>{error}</p>
-        <button onClick={() => navigate('/dashboard/leads')} style={{ padding: '10px 20px', borderRadius: 12, background: 'var(--color-espresso)', color: '#fff', border: 'none', cursor: 'pointer', fontWeight: 600 }}>Back to Leads</button>
+        <button onClick={() => router.push('/dashboard/leads')} style={{ padding: '10px 20px', borderRadius: 12, background: 'var(--color-espresso)', color: '#fff', border: 'none', cursor: 'pointer', fontWeight: 600 }}>Back to Leads</button>
       </div>
     </div>
   )
@@ -346,7 +349,7 @@ export const LeadDetail = () => {
 
       {/* ── Breadcrumb ─────────────────────────────────────────────────────── */}
       <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 20 }}>
-        <Link to="/dashboard/leads" style={{ fontSize: 13, color: 'var(--text-tertiary)', textDecoration: 'none', fontWeight: 500, display: 'flex', alignItems: 'center', gap: 4 }}>
+        <Link href="/dashboard/leads" style={{ fontSize: 13, color: 'var(--text-tertiary)', textDecoration: 'none', fontWeight: 500, display: 'flex', alignItems: 'center', gap: 4 }}>
           <Icons.ArrowLeft /> Leads
         </Link>
         <span style={{ color: 'var(--border-primary)', fontSize: 13 }}>/</span>
@@ -730,7 +733,7 @@ export const LeadDetail = () => {
               {[
                 { icon: <Icons.Mail />, label: 'Send Email', onClick: () => window.open(`mailto:${lead.email}`), disabled: !lead.email },
                 { icon: <Icons.Phone />, label: 'Call Lead', onClick: () => lead.phone && window.open(`tel:${lead.phone}`), disabled: !lead.phone },
-                { icon: <Icons.Calendar />, label: 'Schedule Appointment', onClick: () => navigate('/dashboard/appointments') },
+                { icon: <Icons.Calendar />, label: 'Schedule Appointment', onClick: () => router.push('/dashboard/appointments') },
                 { icon: <Icons.MessageSquare />, label: 'Add Note', onClick: () => setEditMode(true) },
                 { icon: <Icons.Share />, label: 'Copy Lead Link', onClick: () => copyToClipboard(window.location.href, 'Link copied!') },
               ].map((action, idx) => (
